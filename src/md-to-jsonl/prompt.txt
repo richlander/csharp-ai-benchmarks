@@ -1,0 +1,52 @@
+Write program that converts markdown to JSONL.
+
+- Take a directory as input. Validate that it exists otherwise print an error.
+- Open a new file in that directory with the same name as the directory with the ".jsonl" file extension.
+- Iterate over each child directory.
+- Look for a README.md file.
+- Open the file. Process the contents per the following description.
+- Convert the markdown file to a single line JSON document and write to the new .jsonl file.
+- Close the README.md file.
+- After iterating through all directories, close the .jsonl file.
+
+The source markdown should have the following structure. It is very regular.
+
+````markdown
+# $TASK_ID -- $DESCRIPTION
+
+$NAME
+
+## Prompt
+
+$PROMPT
+
+## Solution
+
+$SOLUTION
+
+## Tests
+
+$TESTS
+````
+
+The target JSON document has the following properties (sometimes called "columns"):
+
+- `text`: A string prompt for an AI, to generate code in a particular coding language.
+- `code`: A string for the code that is considered a good or correct answer for the prompt in the given language. In this case, the language is Python.
+- `task_id`: An integer for the ID for the document.
+- `test_setup_code`: A string for code that must be run before `code` can be run. This is most often an empty string.
+- `test_list`: An array of test code fragments.
+- `challenge_test_list`: An array. It is most often an empty array. I'm not sure what this is for.
+
+The final document should have the following form.
+
+```json
+{"text": "$PROMPT", "code": "$CODE", "task_id": $TASK-ID, "test_setup_code": "", "test_list": [$TESTS], "challenge_test_list": []}
+```
+
+Notes:
+
+- Markdown code fences should be removed.
+- Any leading or trailing whitespace characters including line feeds should be trimmed.
+- $SOLUTION is a single block of text. It should be copied directly into the JSON.
+- $TEST has multiple blocks of text. Each block should be copied directly into the JSON in quotes. It will be copied into an array. Each string will need to be followed by a coma except for the last one, per JSON syntax.
