@@ -1,0 +1,39 @@
+The following JSON document contains C# code.
+
+```json
+{"task_id": "HumanEval_csharp/0", "prompt": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Text.RegularExpressions;\nusing KellermanSoftware.CompareNetObjects;\n\nnamespace Solution\n{\n    public class Program\n    {\n        /// <summary> \n        /// You're an expert C# programmer\n        /// Check if in given list of numbers, are any two numbers closer to each other than\n        /// given threshold.\n        /// >>> HasCloseElements([1.0, 2.0, 3.0], 0.5)\n        /// False\n        /// >>> HasCloseElements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n        /// True\n        /// \n        /// </summary>\n        public static bool HasCloseElements (List<double> numbers, double threshold) \n        {", "test": "\n\n        public static void Main(string[] args)\n        {\n            CompareLogic compareLogic = new CompareLogic();\n            var actual1 = HasCloseElements(new List<double> {1.0,2.0,3.9,4.0,5.0,2.2},0.3);\n            var expected1 = true;\n            var result1 = compareLogic.Compare(actual1, expected1);\n            if (!result1.AreEqual) {throw new Exception(\"Exception --- test case 0 failed to pass\");}\n\n            var actual2 = HasCloseElements(new List<double> {1.0,2.0,3.9,4.0,5.0,2.2},0.05);\n            var expected2 = false;\n            var result2 = compareLogic.Compare(actual2, expected2);\n            if (!result2.AreEqual) {throw new Exception(\"Exception --- test case 1 failed to pass\");}\n\n            var actual3 = HasCloseElements(new List<double> {1.0,2.0,5.9,4.0,5.0},0.95);\n            var expected3 = true;\n            var result3 = compareLogic.Compare(actual3, expected3);\n            if (!result3.AreEqual) {throw new Exception(\"Exception --- test case 2 failed to pass\");}\n\n            var actual4 = HasCloseElements(new List<double> {1.0,2.0,5.9,4.0,5.0},0.8);\n            var expected4 = false;\n            var result4 = compareLogic.Compare(actual4, expected4);\n            if (!result4.AreEqual) {throw new Exception(\"Exception --- test case 3 failed to pass\");}\n\n            var actual5 = HasCloseElements(new List<double> {1.0,2.0,3.0,4.0,5.0,2.0},0.1);\n            var expected5 = true;\n            var result5 = compareLogic.Compare(actual5, expected5);\n            if (!result5.AreEqual) {throw new Exception(\"Exception --- test case 4 failed to pass\");}\n\n            var actual6 = HasCloseElements(new List<double> {1.1,2.2,3.1,4.1,5.1},1.0);\n            var expected6 = true;\n            var result6 = compareLogic.Compare(actual6, expected6);\n            if (!result6.AreEqual) {throw new Exception(\"Exception --- test case 5 failed to pass\");}\n\n            var actual7 = HasCloseElements(new List<double> {1.1,2.2,3.1,4.1,5.1},0.5);\n            var expected7 = false;\n            var result7 = compareLogic.Compare(actual7, expected7);\n            if (!result7.AreEqual) {throw new Exception(\"Exception --- test case 6 failed to pass\");}\n\n        }\n    }\n}\n", "language": "csharp", "description": "Check if in given list of numbers, are any two numbers closer to each other than\ngiven threshold.\n>>> has_close_elements([1.0, 2.0, 3.0], 0.5)\nFalse\n>>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\nTrue\n", "entry_point": "HasCloseElements", "canonical_solution": null}
+```
+
+It has the following properties:
+
+- `task_id` -- The ID.
+- `prompt` -- The prompt for the AI to act on.
+- `test` -- The code to validate the response from the AI assistance.
+- `language` -- The programming language of the solution.
+- `entry_point` -- The method with the solution.
+- `description` -- Summary of prompt.
+- `canonical_solution` -- Typically null.
+
+Variables:
+
+$TASK_ID -- Matches `task_id`. Should be an integer. Remove "HumanEval_csharp/".
+$DESCRIPTION -- Summary of `description`. Limit to 48 characters
+$PROMPT -- Matches `prompt` formatted as C#. `prompt` ends without closing braces. The formatted text should stop at the same spot.
+$SOLUTION -- Matches `test` formatted as C#
+
+
+Generate a markdown file called README.md with in the following format.
+
+````markdown
+# $TASK_ID -- $DESCRIPTION
+
+## Prompt
+
+$PROMPT
+
+## Test
+
+```csharp
+// Solution here
+```
+````
